@@ -31,7 +31,11 @@ resource "aws_iam_policy" "s3_access_policy" {
         ],
         Resource = [
           "arn:aws:s3:::elections-bronze-data",
-          "arn:aws:s3:::elections-bronze-data/*"
+          "arn:aws:s3:::elections-bronze-data/*",
+          "arn:aws:s3:::elections-silver-data",
+          "arn:aws:s3:::elections-silver-data/*",
+          "arn:aws:s3:::elections-gold-data",
+          "arn:aws:s3:::elections-gold-data/*",
         ]
       }
     ]

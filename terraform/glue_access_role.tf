@@ -28,7 +28,10 @@ resource "aws_iam_policy" "glue_access_policy" {
           "glue:GetTable",
           "glue:GetTables",
           "glue:GetDatabase",
-          "glue:GetDatabases"
+          "glue:GetDatabases",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:PutObject"
         ],
         Resource = "*"
       }
