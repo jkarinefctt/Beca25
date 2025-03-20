@@ -15,3 +15,4 @@ resource "aws_iam_role" "S3MigrationRole" {
     ]
   })
 }
+
