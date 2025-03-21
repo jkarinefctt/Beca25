@@ -39,7 +39,7 @@ destination_dir = 'C:/Users/jkarinef/Beca25/extracted_files'  # Replace with you
 unzip_and_cleanup(zip_file_path, destination_dir)
 
 # Set the folder containing the files
-folder_path = "path/to/your/folder"
+folder_path = "C:/Users/jkarinef/Beca25/extracted_files"
 
 # Iterate over all files in the folder to convert type to UTF-8
 for filename in os.listdir(folder_path):
@@ -51,5 +51,9 @@ for filename in os.listdir(folder_path):
         command = f"iconv -f ISO-8859-1 -t UTF-8 {input_file} > {output_file}"
         subprocess.run(command, shell=True)
         print(f"Converted {filename} to UTF-8 and saved as {output_file}")
+
+        # Delete the original file
+        os.remove(input_file)
+        print(f"Deleted original file: {input_file}")
 
 print("All files have been processed.")
