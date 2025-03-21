@@ -126,12 +126,23 @@ data_frame = spark.read.csv(
     encoding="UTF-8"  # Define a codificação do arquivo
 )
 
-# # Removendo dados duplicados
-# data_frame = data_frame.dropDuplicates()
+# Removendo dados duplicados
+data_frame = data_frame.dropDuplicates()
 
 # Lista de colunas para remover
-colunas_para_remover = ["cor_raca", "identidade_genero", "interprete_libras", "quilombola", "data_carga"]
-
+# Lista de colunas para remover
+colunas_para_remover = [
+    "etnia_indigena",
+    "identidade_genero",
+    "orientacao_sexual",
+    "quilombola",
+    "situacao_cassacao",
+    "situacao_desconstituicao",
+    "situacao_julgamento",
+    "quantidade_candidatos",
+    "quantidade_candidatos_2_turno",
+    "data_carga"
+]
 # Verificar quais colunas realmente existem no DataFrame
 colunas_existentes = [coluna for coluna in colunas_para_remover if coluna in data_frame.columns]
 
