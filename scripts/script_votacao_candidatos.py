@@ -19,33 +19,30 @@ job = Job(glueContext)
 # Mapeamento para renomear as colunas
 mapa_renomeacao = {
     "Ano de eleição": "ano_eleicao",
-    "Cor / Raça": "cor_raca",
+    "Região": "regiao",
+    "Cargo": "cargo",
+    "Município": "municipio",
+    "Turno": "turno",
+    "UF": "uf",
+    "Código município": "codigo_municipio",
+    "Cor/raça": "cor_raca",
     "Estado civil": "estado_civil",
     "Faixa etária": "faixa_etaria",
     "Gênero": "genero",
     "Grau de instrução": "grau_instrucao",
-    "Identidade de gênero": "identidade_genero",
-    "Intérprete de libras": "interprete_libras",
-    "Município": "municipio",
-    "Nome social": "nome_social",
-    "País": "pais",
-    "Quilombola": "quilombola",
-    "Região": "regiao",
-    "Turno": "turno",
-    "UF": "UF",
+    "Nome candidato": "nome_candidato",
+    "Número candidato": "numero_candidato",
+    "Ocupação": "ocupacao",
+    "Partido": "partido",
+    "Situação totalização": "situacao_totalizacao",
     "Zona": "zona",
-    "Quantidade de eleitores deficientes abstenção": "quant_eleitores_deficientes_abstencao",
-    "Quantidade de eleitores comparecimento TTE": "quant_eleitores_comparecimento_TTE",
-    "Quantidade de eleitores abstenção TTE": "quant_eleitores_eleitores_abstencao_TTE",
-    "Quantidade de eleitores aptos": "quant_eleitores_aptos",
-    "Quantidade de eleitores comparecimento": "quant_eleitores_comparecimento",
-    "Quantidade de eleitores abstenção": "quant_eleitores_abstencao",
-    "Quantidade de eleitores deficientes comparecimento": "quant_eleitores_deficientes_comparecimento",
+    "Votos válidos": "votos_validos",
+    "Votos nominais": "votos_nominais",
     "Data de carga": "data_carga"
 }
 
 # Caminho para o arquivo de entrada no S3
-s3_input_path = "s3://elections-bronze-data/comparecimento_abstencao.csv"
+s3_input_path = "s3://elections-bronze-data/votacao_candidatos.csv"
 
 # Lendo o arquivo CSV bruto
 data_frame = spark.read.csv(s3_input_path, header=True, sep=";", encoding="UTF-8")
@@ -58,28 +55,25 @@ for nome_antigo, nome_novo in mapa_renomeacao.items():
 # Esquema completo, incluindo colunas que serão removidas
 schema = StructType([
     StructField("ano_eleicao", IntegerType(), True),
-    StructField("cor_raca", StringType(), True),  # Será removida depois
+    StructField("regiao", StringType(), True),
+    StructField("cargo", StringType(), True),
+    StructField("municipio", StringType(), True),
+    StructField("turno", IntegerType(), True),
+    StructField("uf", StringType(), True),
+    StructField("codigo_municipio", IntegerType(), True),
+    StructField("cor_raca", StringType(), True),
     StructField("estado_civil", StringType(), True),
     StructField("faixa_etaria", StringType(), True),
     StructField("genero", StringType(), True),
     StructField("grau_instrucao", StringType(), True),
-    StructField("identidade_genero", StringType(), True),  # Será removida depois
-    StructField("interprete_libras", StringType(), True),  # Será removida depois
-    StructField("municipio", StringType(), True),
-    StructField("nome_social", StringType(), True),
-    StructField("pais", StringType(), True),
-    StructField("quilombola", StringType(), True),  # Será removida depois
-    StructField("regiao", StringType(), True),
-    StructField("turno", IntegerType(), True),
-    StructField("UF", StringType(), True),
+    StructField("nome_candidato", StringType(), True),
+    StructField("numero_candidato", IntegerType(), True),
+    StructField("ocupacao", StringType(), True),
+    StructField("partido", StringType(), True),
+    StructField("situacao_totalizacao", StringType(), True),
     StructField("zona", IntegerType(), True),
-    StructField("quant_eleitores_deficientes_abstencao", IntegerType(), True),
-    StructField("quant_eleitores_comparecimento_TTE", IntegerType(), True),
-    StructField("quant_eleitores_eleitores_abstencao_TTE", IntegerType(), True),
-    StructField("quant_eleitores_aptos", IntegerType(), True),
-    StructField("quant_eleitores_comparecimento", IntegerType(), True),
-    StructField("quant_eleitores_abstencao", IntegerType(), True),
-    StructField("quant_eleitores_deficientes_comparecimento", IntegerType(), True),
+    StructField("votos_validos", IntegerType(), True),
+    StructField("votos_nominais", IntegerType(), True),
     StructField("data_carga", TimestampType(), True)  # Será removida depois
 ])
 
@@ -93,9 +87,9 @@ data_frame = spark.read.csv(
 )
 
 # Lista de colunas para remover (já renomeadas)
-colunas_para_remover = ["cor_raca", "identidade_genero", "interprete_libras", "quilombola", "data_carga"]
+colunas_para_remover = ["data_carga"]
 
-# Removendo as colunas específicas
+# Removendo a coluna específica
 data_frame = data_frame.drop(*colunas_para_remover)
 
 # Substituindo valores nulos por "NA"
@@ -105,7 +99,7 @@ data_frame = data_frame.na.fill("NA")
 dyf = DynamicFrame.fromDF(data_frame, glueContext, "dyf")
 
 # Salvando os dados no bucket S3
-s3_output_path = "s3://elections-silver-data/output/db_eleitores"
+s3_output_path = "s3://elections-silver-data/output/db_votacao_candidatos"
 
 glueContext.write_dynamic_frame.from_options(
     frame=dyf,

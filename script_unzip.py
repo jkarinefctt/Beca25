@@ -32,7 +32,7 @@ def unzip_and_cleanup(zip_file_path, destination_dir):
         print(f"An error occurred: {e}")
 
 # Example usage
-zip_file_path = 'C:/Users/jkarinef/Beca25/dataset.zip'  # Replace with your zip file path
-destination_dir = 'C:/Users/jkarinef/Beca25/extracted_files'  # Replace with your desired extraction directory
+zip_file_path = 'C:/Users/mperebor/OneDrive - NTT DATA EMEAL/Documents/PI/dataset.zip'  # Replace with your zip file path
+destination_dir = 'C:/Users/mperebor/OneDrive - NTT DATA EMEAL/Documents/PI/Dataset'  # Replace with your desired extraction directory
 
 unzip_and_cleanup(zip_file_path, destination_dir)

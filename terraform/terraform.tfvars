@@ -1,0 +1,1 @@
+glue_job_role_arn = "arn:aws:iam::008376430615:role/GlueAccessRole"

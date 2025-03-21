@@ -28,7 +28,15 @@ resource "aws_iam_policy" "glue_access_policy" {
           "glue:GetTable",
           "glue:GetTables",
           "glue:GetDatabase",
-          "glue:GetDatabases"
+          "glue:GetDatabases",
+          "glue:CreateTable",
+          "glue:UpdateTable",
+          "s3:GetObject",
+          "s3:PutObject",
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "s3:ListBucket"  # Permissão ampla adicionada
         ],
         Resource = "*"
       }
