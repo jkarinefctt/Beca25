@@ -16,55 +16,7 @@ spark = glueContext.spark_session
 # Initialize the Glue job
 job = Job(glueContext)
 
-# Mapeamento para renomear as colunas
-mapa_renomeacao = {
-    "Ano de eleição": "ano_eleicao",
-    "Região": "regiao",
-    "Zona": "zona",
-    "Cargo": "cargo",
-    "Código município": "codigo_municipio",
-    "Município": "municipio",
-    "Turno": "turno",
-    "UF": "uf",
-    "Quantidade de votos brancos": "quantidade_votos_brancos",
-    "Quantidade de votos de legenda válidos": "quantidade_votos_legenda_validos",
-    "Quantidade de comparecimento": "quantidade_comparecimento",
-    "Quantidade de votos anulados": "quantidade_votos_anulados",
-    "Quantidade de votos nominais válidos": "quantidade_votos_nominais_validos",
-    "Quantidade de seções agregadas": "quantidade_secoes_agregadas",
-    "Quantidade de votos válidos": "quantidade_votos_validos",
-    "Quantidade de aptos totalizados": "quantidade_aptos_totalizados",
-    "Quantidade total de seções": "quantidade_total_secoes",
-    "Quantidade de votos nulos": "quantidade_votos_nulos",
-    "Quantidade de votos totais": "quantidade_votos_totais",
-    "Quantidade de aptos": "quantidade_aptos",
-    "Quantidade de seções principais": "quantidade_secoes_principais",
-    "Quantidade de abstenções": "quantidade_abstencoes",
-    "Quantidade total de votos de legenda válidos": "quantidade_total_votos_legenda_validos",
-    "Quantidade de votos anulados apurados em separado": "quantidade_votos_anulados_separado",
-    "Quantidade de votos nulos técnico": "quantidade_votos_nulos_tecnico",
-    "Quantidade total de votos anulados subjudice": "quantidade_total_votos_anulados_subjudice",
-    "Quantidade de votos concorrentes": "quantidade_votos_concorrentes",
-    "Quantidade total de votos nulos": "quantidade_total_votos_nulos",
-    "Quantidade de votos nominais anulados": "quantidade_votos_nominais_anulados",
-    "Quantidade de votos de legenda anulados": "quantidade_votos_legenda_anulados",
-    "Quantidade de votos de nominais anulados subjudice": "quantidade_votos_nominais_anulados_subjudice",
-    "Quantidade de votos de legenda anulados subjudice": "quantidade_votos_legenda_anulados_subjudice",
-    "Quantidade de seções não instaladas": "quantidade_secoes_nao_instaladas",
-    "Quantidade de seções instaladas": "quantidade_secoes_instaladas",
-    "Data de carga": "data_carga"
-}
-
-# Caminho para o arquivo de entrada no S3
 s3_input_path = "s3://elections-bronze-data/detalhe_votacao.csv"
-
-# Lendo o arquivo CSV bruto
-data_frame = spark.read.csv(s3_input_path, header=True, sep=";", encoding="UTF-8")
-
-# Renomeando todas as colunas de acordo com o mapeamento
-for nome_antigo, nome_novo in mapa_renomeacao.items():
-    if nome_antigo in data_frame.columns:
-        data_frame = data_frame.withColumnRenamed(nome_antigo, nome_novo)
 
 # Esquema completo, incluindo colunas que serão removidas
 schema = StructType([

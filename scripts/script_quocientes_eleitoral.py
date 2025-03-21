@@ -16,39 +16,8 @@ spark = glueContext.spark_session
 # Initialize the Glue job
 job = Job(glueContext)
 
-# Mapeamento para renomear as colunas
-mapa_renomeacao = {
-    "Ano de eleição": "ano_eleicao",
-    "Região": "regiao",
-    "Cargo": "cargo",
-    "Município": "municipio",
-    "Turno": "turno",
-    "UF": "uf",
-    "Coligação": "coligacao",
-    "Quantidade de vagas QE": "qtd_vagas_qe",
-    "Quantidade de votos de legenda QE": "qtd_votos_legenda_qe",
-    "Quantidade de votos nominais QE": "qtd_votos_nominais_qe",
-    "Quantidade de votos válidos QE": "qtd_votos_validos_qe",
-    "Valor do quociente eleitoral": "valor_qe",
-    "Quantidade de votos de legenda QP": "qtd_votos_legenda_qp",
-    "Quantidade de votos nominais QP": "qtd_votos_nominais_qp",
-    "Quantidade de vagas preenchidas QP": "qtd_vagas_preenchidas_qp",
-    "Quantidade de vagas média QP": "qtd_vagas_media_qp",
-    "Quantidade de vagas obtidas QP": "qtd_vagas_obtidas_qp",
-    "Quantidade votos coligação QP": "qtd_votos_coligacao_qp",
-    "Data de carga": "data_carga"
-}
-
 # Caminho para o arquivo de entrada no S3
-s3_input_path = "s3://elections-bronze-data/quociente-eleitoral.csv"
-
-# Lendo o arquivo CSV bruto
-data_frame = spark.read.csv(s3_input_path, header=True, sep=";", encoding="UTF-8")
-
-# Renomeando as colunas de acordo com o mapeamento
-for nome_antigo, nome_novo in mapa_renomeacao.items():
-    if nome_antigo in data_frame.columns:
-        data_frame = data_frame.withColumnRenamed(nome_antigo, nome_novo)
+s3_input_path = "s3://elections-bronze-data/quociente_eleitoral.csv"
 
 # Esquema completo, incluindo colunas que serão removidas
 schema = StructType([

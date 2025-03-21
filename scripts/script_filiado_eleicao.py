@@ -16,33 +16,8 @@ spark = glueContext.spark_session
 # Initialize the Glue job
 job = Job(glueContext)
 
-# Mapeamento para renomear as colunas
-mapa_renomeacao = {
-    "Raça/cor": "raca_cor",
-    "Estado civil": "estado_civil",
-    "Faixa etária": "faixa_etaria",
-    "Gênero": "genero",
-    "Intérprete de libras": "interprete_libras",
-    "Município": "municipio",
-    "País": "pais",
-    "Quilombola": "quilombola",
-    "Região": "regiao",
-    "UF": "uf",
-    "Zona": "zona",
-    "Ano de eleição": "ano_eleicao",
-    "Grau de escolaridade": "grau_escolaridade"
-}
-
 # Caminho para o arquivo de entrada no S3
 s3_input_path = "s3://elections-bronze-data/filiado_eleicao.csv"
-
-# Lendo o arquivo CSV bruto
-data_frame = spark.read.csv(s3_input_path, header=True, sep=";", encoding="UTF-8")
-
-# Renomeando todas as colunas de acordo com o mapeamento
-for nome_antigo, nome_novo in mapa_renomeacao.items():
-    if nome_antigo in data_frame.columns:
-        data_frame = data_frame.withColumnRenamed(nome_antigo, nome_novo)
 
 # Esquema completo, incluindo colunas que serão removidas
 schema = StructType([

@@ -22,56 +22,8 @@ job = Job(glueContext)
 # job.init(args['silver_transform_candidato_job'], args)
 
 
-# Renomeando as colunas de acordo com o mapeamento
-mapa_renomeacao = {
-    "Cargo": "cargo",
-    "Ano de eleição": "ano_eleicao",
-    "Coligação": "coligacao",
-    "Cor/raça": "cor_raca",
-    "Detalhe da situação de candidatura": "detalhe_situacao_candidatura",
-    "Estado civil": "estado_civil",
-    "Etnia indígena": "etnia_indigena",
-    "Faixa etária": "faixa_etaria",
-    "Federação": "federacao",
-    "Gênero": "genero",
-    "Grau de instrução": "grau_instrucao",
-    "Identidade de gênero": "identidade_genero",
-    "Município": "municipio",
-    "Nacionalidade": "nacionalidade",
-    "Nome social": "nome_social",
-    "Ocupação": "ocupacao",
-    "Orientação sexual": "orientacao_sexual",
-    "Quilombola": "quilombola",
-    "Reeleição": "reeleicao",
-    "Região": "regiao",
-    "Sigla partido": "sigla_partido",
-    "Situação de cadastramento": "situacao_cadastramento",
-    "Situação de candidatura": "situacao_candidatura",
-    "Situação de cassação": "situacao_cassacao",
-    "Situação de desconstituição": "situacao_desconstituicao",
-    "Situação de julgamento": "situacao_julgamento",
-    "Situação de totalização": "situacao_totalizacao",
-    "Tipo eleição": "tipo_eleicao",
-    "Turno": "turno",
-    "UF": "uf",
-    "Quantidade de candidatos": "quantidade_candidatos",
-    "Quantidade de candidatos eleitos": "quantidade_candidatos_eleitos",
-    "Quantidade de candidatos para o 2º turno": "quantidade_candidatos_2_turno",
-    "Quantidade de candidatos não eleitos": "quantidade_candidatos_nao_eleitos",
-    "Quantidade de candidatos suplentes": "quantidade_candidatos_suplentes",
-    "Quantidade de candidatos não informados": "quantidade_candidatos_nao_informados",
-    "Data de carga": "data_carga"
-}
-
-
 # Lendo o arquivo CSV bruto
 s3_input_path = "s3://elections-bronze-data/candidatos.csv"
-data_frame = spark.read.csv(s3_input_path, header=True, sep=";")
-
-# Renomeando as colunas de acordo com o mapeamento
-for nome_antigo, nome_novo in mapa_renomeacao.items():
-    if nome_antigo in data_frame.columns:
-        data_frame = data_frame.withColumnRenamed(nome_antigo, nome_novo)
 
 
 # Agora que as colunas foram renomeadas, aplicamos o esquema correspondente
@@ -141,10 +93,7 @@ colunas_para_remover = [
     "data_carga"
 ]
 # Verificar quais colunas realmente existem no DataFrame
-colunas_existentes = [coluna for coluna in colunas_para_remover if coluna in data_frame.columns]
-
-# Remover as colunas existentes
-data_frame = data_frame.drop(*colunas_existentes)
+data_frame = data_frame.drop(*colunas_para_remover)
 
 # Removendo dados duplicados
 data_frame = data_frame.dropDuplicates()
