@@ -42,7 +42,7 @@ data_frame = spark.read.csv(
     header=True,
     schema=schema,
     sep=";",
-    encoding="UTF-8"
+    encoding="ISO-8859-1"
 )
 
 # Lista de colunas para remover (já renomeadas)

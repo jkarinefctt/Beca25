@@ -117,13 +117,13 @@ schema = StructType([
 
 # Aplicando o esquema ao DataFrame
 # Lendo o arquivo CSV aplicando o esquema diretamente
-# Lendo o arquivo CSV aplicando o esquema diretamente e definindo a codificação como UTF-8
+# Lendo o arquivo CSV aplicando o esquema diretamente e definindo a codificação como ISO-8859-1
 data_frame = spark.read.csv(
     s3_input_path,
     header=True,
     schema=schema,
     sep=";",
-    encoding="UTF-8"  # Define a codificação do arquivo
+    encoding="ISO-8859-1"  # Define a codificação do arquivo
 )
 
 # # Removendo dados duplicados
