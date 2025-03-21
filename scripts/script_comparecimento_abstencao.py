@@ -98,6 +98,9 @@ colunas_para_remover = ["cor_raca", "identidade_genero", "interprete_libras", "q
 # Removendo as colunas específicas
 data_frame = data_frame.drop(*colunas_para_remover)
 
+# Removendo dados duplicados
+data_frame = data_frame.dropDuplicates()
+
 # Substituindo valores nulos por "NA"
 data_frame = data_frame.na.fill("NA")
 

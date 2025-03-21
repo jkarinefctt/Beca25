@@ -92,6 +92,9 @@ colunas_para_remover = ["data_carga"]
 # Removendo a coluna específica
 data_frame = data_frame.drop(*colunas_para_remover)
 
+# Removendo dados duplicados
+data_frame = data_frame.dropDuplicates()
+
 # Substituindo valores nulos por "NA"
 data_frame = data_frame.na.fill("NA")
 

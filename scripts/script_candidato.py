@@ -126,9 +126,6 @@ data_frame = spark.read.csv(
     encoding="UTF-8"  # Define a codificação do arquivo
 )
 
-# Removendo dados duplicados
-data_frame = data_frame.dropDuplicates()
-
 # Lista de colunas para remover
 # Lista de colunas para remover
 colunas_para_remover = [
@@ -148,6 +145,9 @@ colunas_existentes = [coluna for coluna in colunas_para_remover if coluna in dat
 
 # Remover as colunas existentes
 data_frame = data_frame.drop(*colunas_existentes)
+
+# Removendo dados duplicados
+data_frame = data_frame.dropDuplicates()
 
 # Adicionando a coluna id_candidato
 data_frame = data_frame.withColumn("id_candidato", monotonically_increasing_id() + 1)
