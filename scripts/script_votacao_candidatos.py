@@ -69,7 +69,7 @@ data_frame = data_frame.na.fill("NA")
 dyf = DynamicFrame.fromDF(data_frame, glueContext, "dyf")
 
 # Salvando os dados no bucket S3
-s3_output_path = "s3://elections-silver-data/output/db_votacao_candidatos"
+s3_output_path = "s3://elections-silver-data/output/db_votacao_candidato"
 
 glueContext.write_dynamic_frame.from_options(
     frame=dyf,
