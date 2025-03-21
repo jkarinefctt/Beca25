@@ -21,3 +21,16 @@ extracted_files/vagas.csv
 extracted_files/votacao_candidato.csv
 extracted_files/votacao_partido.csv
 extracted_files/candidatos.csv
+terraform/.terraform.lock.hcl
+terraform/LICENSE.txt
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/glue_job_test/csv_to_parquet.py
+terraform/glue_job_test/unzip_glue_job.py
+terraform/glue_job_test/unzip_glue_job.tf
+terraform/glue_job_test/upload_script.tf
+terraform/glue_job_test/upload_unzip_script.tf
+terraform/glue_job_test/aws_glue_job_test.tf
+terraform/terraform.exe
+terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/5.91.0/windows_amd64/LICENSE.txt
+terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/5.91.0/windows_amd64/terraform-provider-aws_v5.91.0_x5.exe
