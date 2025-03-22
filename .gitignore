@@ -57,3 +57,7 @@ extracted_files/receitas_candidatos_utf8.csv
 extracted_files/vagas_utf8.csv
 extracted_files/votacao_candidato_utf8.csv
 extracted_files/votacao_partido_utf8.csv
+Volume_de_vendas_no_comercio_varejista_ampliado.csv
+terraform/analise_extra_job.py
+terraform/script_unizp_convert.py
+terraform/script_unizp_convert.py
