@@ -61,3 +61,4 @@ Volume_de_vendas_no_comercio_varejista_ampliado.csv
 terraform/analise_extra_job.py
 terraform/script_unizp_convert.py
 terraform/script_unizp_convert.py
+extracted_files/pesquisas_eleitorais_limpo.csv
