@@ -22,6 +22,45 @@ s3_input_path = "s3://elections-bronze-data/pesquisas_eleitorais.csv"
 #Caminho temporário para salvar o CSV limpo
 temp_path = "s3://elections-bronze-data/pesquisar_eleitorais_limpo"
 
+#leitura como texto bruto
+raw_df = spark.read.text(s3_input_path)
+
+#conversao para rdd para processamento linha a linha
+raw_rdd = raw_df.rdd.map(lambda row: row[0])
+
+#função para limpar e resconstruir registros
+def processar_linhas(linhas):
+    registros = []
+    buffer = ""
+    for linha in linhas:
+        linha = linha.strip()
+        
+        if not linha:
+            continue
+        
+        #acumula no buffer
+        if buffer:
+            buffer += " " + linha
+        else:
+            buffer = linha
+            
+        #conta separadores ";"
+        if buffer.count(";") >= 18: #sao 19 colunas = 18 separadores
+            #corrige quebras internas /n e tabs
+            buffer = buffer.replace("\n", " ").replace("\r", " ").replace("\t", " ").replace("  ", " ")
+            registros.append(buffer)
+            buffer = ""
+    return registros
+
+#aplica o pré-processamento
+cleaned_rdd = raw_rdd.map(processar_linhas)
+#converte de rdd pra DataFrame
+cleaned_df = cleaned_rdd.toDF(["line"])
+
+#salva como csv em formato texto
+cleaned_df.write.mode("overwrite").text(temp_path)
+
+
 # Esquema completo, incluindo colunas que serão removidas
 schema = StructType([
     StructField("uf", StringType(), True),
@@ -45,11 +84,11 @@ schema = StructType([
     StructField("data_carga", DateType(), True)  # Será removida
 ])
 #leitura como texto bruto
-raw_df = spark.read.text(s3_input_path)
+#raw_df = spark.read.text(s3_input_path)
 #substituir tab por ;
-cleaned_df = raw_df.selectExpr("regexp_replace(value, '\\t', ';') as value")
+#cleaned_df = raw_df.selectExpr("regexp_replace(value, '\\t', ';') as value")
 #salvar temporariamente
-cleaned_df.write.mode("overwrite").text(temp_path)
+#cleaned_df.write.mode("overwrite").text(temp_path)
 
 # Aplicando o esquema ao DataFrame
 data_frame = spark.read.csv(
