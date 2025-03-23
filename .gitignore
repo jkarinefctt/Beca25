@@ -62,3 +62,8 @@ terraform/analise_extra_job.py
 terraform/script_unizp_convert.py
 terraform/script_unizp_convert.py
 extracted_files/pesquisas_eleitorais_limpo.csv
+clean_csv.py
+vendas_comercio.csv
+extracted_files/pesquisas_eleitorais_limpo.xlsx
+clean_csv.py
+clean_csv.py
