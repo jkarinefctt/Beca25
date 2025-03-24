@@ -13,6 +13,7 @@ locals {
     vagas                        = "s3://elections-bronze-data/scripts/script_vagas.py"
     votacao_candidatos           = "s3://elections-bronze-data/scripts/script_votacao_candidatos.py"
     votacao_partida              = "s3://elections-bronze-data/scripts/script_votacao_partida.py"
+    fundo_partidario             = "s3://elections-bronze-data/scripts/script_fundo_partidario.py"
   }
 }
 

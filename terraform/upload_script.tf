@@ -81,3 +81,10 @@ resource "aws_s3_bucket_object" "script_upload_votacao_partida" {
   source = "C:/Users/mperebor/OneDrive - NTT DATA EMEAL/Documents/PI/Beca25/scripts/script_votacao_partida.py"  # Local path to the script
   acl    = "private"
 }
+
+resource "aws_s3_bucket_object" "script_upload_fundo_partidario" {
+  bucket = aws_s3_bucket.bronze_data.bucket
+  key    = "scripts/script_fundo_partidario.py"  # Path within the bucket
+  source = "C:/Users/mperebor/OneDrive - NTT DATA EMEAL/Documents/PI/Beca25/scripts/script_fundo_partidario.py"  # Local path to the script
+  acl    = "private"
+}
